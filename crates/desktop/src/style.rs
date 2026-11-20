@@ -79,39 +79,43 @@ pub fn primary(text: &str, p: Palette) -> egui::Button<'_> {
         .fill(p.accent)
         .stroke(Stroke::new(1., p.accent))
 }
-pub fn configure(ctx: &egui::Context) {
+fn ui_fonts(system_font: Option<Vec<u8>>) -> egui::FontDefinitions {
     let mut fonts = egui::FontDefinitions::default();
-    let fallback = || {
-        (
-            egui::FontData::from_static(include_bytes!("../assets/fonts/Barlow-Regular.ttf")),
-            egui::FontData::from_static(include_bytes!("../assets/fonts/Barlow-SemiBold.ttf")),
-        )
-    };
-    // The macOS system face stays on the machine; the bundled OFL fallback works elsewhere.
-    #[cfg(target_os = "macos")]
-    let (body, semibold) = if let Ok(bytes) = std::fs::read("/System/Library/Fonts/SFNS.ttf") {
+    let family = fonts.families.entry(FontFamily::Proportional).or_default();
+    let (body, semibold) = if let Some(bytes) = system_font {
         let mut system = egui::FontData::from_owned(bytes);
         system.tweak.coords.push(b"wght", 400.);
         let body = system.clone();
         system.tweak.coords = egui::epaint::text::VariationCoords::new([(b"wght", 610.)]);
         (body, system)
     } else {
-        fallback()
+        // egui bundles Hack with the app. It supplies arrows and narrow spaces
+        // missing from Barlow and the default proportional fallback.
+        family.push("Hack".into());
+        (
+            egui::FontData::from_static(include_bytes!("../assets/fonts/Barlow-Regular.ttf")),
+            egui::FontData::from_static(include_bytes!("../assets/fonts/Barlow-SemiBold.ttf")),
+        )
     };
-    #[cfg(not(target_os = "macos"))]
-    let (body, semibold) = fallback();
     fonts.font_data.insert("UI Body".into(), Arc::new(body));
     fonts
         .font_data
         .insert("UI Semibold".into(), Arc::new(semibold));
-    let family = fonts.families.entry(FontFamily::Proportional).or_default();
     family.insert(0, "UI Body".into());
     let mut heavy = family.clone();
     heavy.insert(0, "UI Semibold".into());
     fonts
         .families
         .insert(FontFamily::Name("UI Semibold".into()), heavy);
-    ctx.set_fonts(fonts);
+    fonts
+}
+
+pub fn configure(ctx: &egui::Context) {
+    #[cfg(target_os = "macos")]
+    let system_font = std::fs::read("/System/Library/Fonts/SFNS.ttf").ok();
+    #[cfg(not(target_os = "macos"))]
+    let system_font = None;
+    ctx.set_fonts(ui_fonts(system_font));
     for theme in [egui::Theme::Light, egui::Theme::Dark] {
         let p = Palette::new(theme == egui::Theme::Dark);
         ctx.style_mut_of(theme, |s| {
@@ -174,4 +178,23 @@ pub fn photographs(ui: &mut egui::Ui, p: Palette) {
     painter.line_segment([pt(14., 14.), pt(19., 18.)], pen);
     painter.line_segment([pt(19., 18.), pt(25., 11.)], pen);
     painter.line_segment([pt(25., 11.), pt(35., 22.)], pen);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn bundled_fonts_cover_sort_arrows_and_localized_file_sizes() {
+        let mut fonts = egui::epaint::text::Fonts::new(Default::default(), ui_fonts(None));
+        for family in [
+            FontFamily::Proportional,
+            FontFamily::Name("UI Semibold".into()),
+        ] {
+            let font = FontId::new(13., family);
+            for glyph in "↑↓→−—\u{202f}".chars() {
+                assert!(fonts.has_glyph(&font, glyph), "{font:?} missing {glyph:?}");
+            }
+        }
+    }
 }
