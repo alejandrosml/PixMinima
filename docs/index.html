@@ -13,7 +13,7 @@
 <body>
   <header class="mast wrap">
     <a class="wordmark" href="./" aria-label="PixMinima"><img src="images/pixminima-icon.png" width="38" height="38" alt=""><span>PixMinima</span></a>
-    <nav><a href="https://github.com/alejandrosml/PixMinima" data-key="source">Code source</a><label class="lang"><span class="sr-only" data-key="language">Langue</span><select id="language"><option value="auto" data-key="system">Automatique (langue du navigateur)</option></select></label></nav>
+    <nav><a href="#formats" data-key="navFormats">Formats</a><a href="https://github.com/alejandrosml/PixMinima" data-key="source">Code source</a><label class="lang"><span class="sr-only" data-key="language">Langue</span><select id="language"><option value="auto" data-key="system">Automatique (langue du navigateur)</option></select></label></nav>
   </header>
   <main>
     <section class="hero wrap">
@@ -30,6 +30,19 @@
       <article><div class="rule blue"></div><h2 data-key="fidelityTitle">Choisir la compression</h2><p data-key="fidelity">Le mode Maximum essaie davantage d’encodages. Pour autoriser une modification de l’image, activez la compression avec perte dans les réglages. Cette option est désactivée au premier lancement.</p></article>
       <article><div class="rule yellow"></div><h2 data-key="resultsTitle">Lire le résultat</h2><p data-key="results">Taille indique le poids du fichier final. Gain donne le pourcentage économisé. Cliquez sur une colonne pour classer les fichiers du lot.</p></article>
       <article><div class="rule coral"></div><h2 data-key="writeTitle">Garder la main sur les fichiers</h2><p data-key="write">Le remplacement se fait sans sauvegarde. Les réglages permettent aussi de créer des copies ou de conserver un original restaurable. Le traitement s’effectue sur le Mac.</p></article>
+    </section>
+    <section id="formats" class="formats wrap" aria-labelledby="formats-title">
+      <h2 id="formats-title" data-key="formatsTitle">Formats d’image pris en charge</h2>
+      <p class="formats-intro" data-key="formatsIntro">PixMinima reconnaît 32 extensions. La taille maximale est de 256 Mio par fichier.</p>
+      <dl>
+        <div><dt data-key="commonFormats">Formats courants</dt><dd><ul><li><strong>PNG / APNG</strong> <code>.png</code> <code>.apng</code></li><li><strong>JPEG</strong> <code>.jpg</code> <code>.jpeg</code> <code>.jpe</code> <code>.jfif</code></li><li><strong>GIF</strong> <code>.gif</code></li><li><strong>WebP</strong> <code>.webp</code></li><li><strong>BMP</strong> <code>.bmp</code></li><li><strong>TIFF</strong> <code>.tif</code> <code>.tiff</code></li></ul></dd></div>
+        <div><dt data-key="rasterFormats">Autres formats matriciels</dt><dd><ul><li><strong>QOI</strong> <code>.qoi</code></li><li><strong>Targa</strong> <code>.tga</code> <code>.targa</code></li><li><strong>Netpbm</strong> <code>.pbm</code> <code>.pgm</code> <code>.ppm</code> <code>.pnm</code></li></ul></dd></div>
+        <div><dt data-key="designFormats">Création graphique</dt><dd><ul><li><strong>Adobe Photoshop</strong> <code>.psd</code> <code>.psb</code></li><li><strong>OpenRaster</strong> <code>.ora</code></li><li><strong>Krita</strong> <code>.kra</code></li><li><strong>OpenEXR</strong> <code>.exr</code></li></ul></dd></div>
+        <div><dt data-key="vectorFormats">Images vectorielles et icônes</dt><dd><ul><li><strong>SVG</strong> <code>.svg</code> <code>.svgz</code></li><li><strong>ICO / CUR</strong> <code>.ico</code> <code>.cur</code></li><li><strong>Apple ICNS</strong> <code>.icns</code></li></ul></dd></div>
+        <div><dt data-key="containerFormats">Conteneurs d’images</dt><dd><ul><li><strong>HEIC / HEIF</strong> <code>.heic</code> <code>.heif</code></li><li><strong>AVIF</strong> <code>.avif</code></li><li><strong>JPEG XL</strong> <code>.jxl</code></li></ul></dd></div>
+      </dl>
+      <p data-key="containerNote">Pour HEIC, HEIF, AVIF et JPEG XL, PixMinima peut alléger le conteneur en gardant le flux image intact.</p>
+      <p data-key="lossyFormats">La compression avec perte est disponible en option pour certains PNG fixes, JPEG et GIF, ainsi que pour les WebP compatibles déjà encodés sans perte. Les autres formats sont toujours optimisés sans perte.</p>
     </section>
     <section class="install wrap">
       <h2 data-key="installTitle">Installer PixMinima</h2>

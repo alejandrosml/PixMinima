@@ -25,5 +25,15 @@
   "license": "GPL versie 3 of hoger",
   "third": "Licenties van derden",
   "alt": "PixMinima toont voor elk bestand de uiteindelijke grootte en de besparing in procenten.",
-  "appLanguages": "De Mac-app is beschikbaar in het Engels, Frans en Spaans."
+  "appLanguages": "De Mac-app is beschikbaar in het Engels, Frans en Spaans.",
+  "navFormats": "Formaten",
+  "formatsTitle": "Ondersteunde afbeeldingsformaten",
+  "formatsIntro": "PixMinima herkent 32 bestandsextensies. De limiet is 256 MiB per bestand.",
+  "commonFormats": "Veelgebruikte afbeeldingsformaten",
+  "rasterFormats": "Overige rasterformaten",
+  "designFormats": "Ontwerp en productie",
+  "vectorFormats": "Vectorafbeeldingen en pictogrammen",
+  "containerFormats": "Beeldcontainers",
+  "containerNote": "Bij HEIC, HEIF, AVIF en JPEG XL kan PixMinima de container verkleinen en de gecodeerde beeldgegevens ongewijzigd laten.",
+  "lossyFormats": "Compressie met verlies is optioneel voor geschikte niet-geanimeerde PNG-bestanden, JPEG, GIF en verliesvrij gecodeerde WebP-bestanden. Alle andere formaten worden zonder verlies geoptimaliseerd."
 }

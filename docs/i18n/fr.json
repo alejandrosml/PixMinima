@@ -25,5 +25,15 @@
   "license": "Licence GPL v3 ou ultérieure",
   "third": "Licences des bibliothèques",
   "system": "Automatique (langue du navigateur)",
-  "appLanguages": "L’application Mac est disponible en français, en anglais et en espagnol."
+  "appLanguages": "L’application Mac est disponible en français, en anglais et en espagnol.",
+  "navFormats": "Formats",
+  "formatsTitle": "Formats d’image pris en charge",
+  "formatsIntro": "PixMinima reconnaît 32 extensions. La taille maximale est de 256 Mio par fichier.",
+  "commonFormats": "Formats courants",
+  "rasterFormats": "Autres formats matriciels",
+  "designFormats": "Création graphique",
+  "vectorFormats": "Images vectorielles et icônes",
+  "containerFormats": "Conteneurs d’images",
+  "containerNote": "Pour HEIC, HEIF, AVIF et JPEG XL, PixMinima peut alléger le conteneur en gardant le flux image intact.",
+  "lossyFormats": "La compression avec perte est disponible en option pour certains PNG fixes, JPEG et GIF, ainsi que pour les WebP compatibles déjà encodés sans perte. Les autres formats sont toujours optimisés sans perte."
 }

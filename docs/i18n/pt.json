@@ -25,5 +25,15 @@
   "license": "Licença GPL versão 3 ou posterior",
   "third": "Licenças de terceiros",
   "alt": "O PixMinima mostra o tamanho final de cada arquivo e a porcentagem economizada.",
-  "appLanguages": "O app para Mac está disponível em inglês, francês e espanhol."
+  "appLanguages": "O app para Mac está disponível em inglês, francês e espanhol.",
+  "navFormats": "Formatos",
+  "formatsTitle": "Formatos de imagem compatíveis",
+  "formatsIntro": "O PixMinima reconhece 32 extensões de arquivo. O limite é de 256 MiB por arquivo.",
+  "commonFormats": "Formatos de imagem mais comuns",
+  "rasterFormats": "Outros formatos raster",
+  "designFormats": "Design e produção",
+  "vectorFormats": "Imagens vetoriais e ícones",
+  "containerFormats": "Contêineres de imagem",
+  "containerNote": "Em arquivos HEIC, HEIF, AVIF e JPEG XL, o PixMinima pode reduzir o tamanho do contêiner e manter intacto o fluxo de dados da imagem codificada.",
+  "lossyFormats": "A compressão com perdas é opcional para imagens PNG estáticas compatíveis, JPEG, GIF e WebP codificado sem perdas. Os demais formatos são otimizados sem perdas."
 }

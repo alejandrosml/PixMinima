@@ -25,5 +25,15 @@
   "license": "GPL 第 3 版或更高版本",
   "third": "第三方许可证",
   "alt": "PixMinima 窗口显示每个文件的最终大小和节省的百分比。",
-  "appLanguages": "Mac 应用支持英语、法语和西班牙语。"
+  "appLanguages": "Mac 应用支持英语、法语和西班牙语。",
+  "navFormats": "格式",
+  "formatsTitle": "支持的图像格式",
+  "formatsIntro": "PixMinima 可识别 32 种文件扩展名。每个文件的大小上限为 256 MiB。",
+  "commonFormats": "常见图像格式",
+  "rasterFormats": "其他位图格式",
+  "designFormats": "设计与制作",
+  "vectorFormats": "矢量图像与图标",
+  "containerFormats": "图像容器",
+  "containerNote": "对于 HEIC、HEIF、AVIF 和 JPEG XL，PixMinima 可以在保留原有图像编码数据流的同时减小容器体积。",
+  "lossyFormats": "符合条件的静态 PNG 图像、JPEG、GIF 和无损 WebP 可以选择有损压缩。其他所有格式均采用无损优化。"
 }

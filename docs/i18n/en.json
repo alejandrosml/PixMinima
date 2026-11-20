@@ -25,5 +25,15 @@
   "alt": "PixMinima shows the final size and percentage saved for each file.",
   "system": "Automatic (browser language)",
   "description": "PixMinima compresses images on your Mac. Lossless by default, with optional lossy compression, per-file results and open source code.",
-  "appLanguages": "The Mac app is available in English, French and Spanish."
+  "appLanguages": "The Mac app is available in English, French and Spanish.",
+  "navFormats": "Formats",
+  "formatsTitle": "Supported image formats",
+  "formatsIntro": "PixMinima recognizes 32 filename extensions. The limit is 256 MiB per file.",
+  "commonFormats": "Common image formats",
+  "rasterFormats": "Other raster formats",
+  "designFormats": "Design and production",
+  "vectorFormats": "Vector images and icons",
+  "containerFormats": "Image containers",
+  "containerNote": "For HEIC, HEIF, AVIF and JPEG XL, PixMinima can reduce the container while keeping the encoded image stream unchanged.",
+  "lossyFormats": "Optional lossy compression is available for eligible still PNG files, JPEG, GIF and lossless WebP. All other formats use lossless optimization."
 }

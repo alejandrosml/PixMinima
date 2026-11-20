@@ -25,5 +25,15 @@
   "license": "GPL バージョン 3 以降",
   "third": "サードパーティのライセンス",
   "alt": "PixMinima の画面に、ファイルごとの圧縮後のサイズと削減率が表示されています。",
-  "appLanguages": "Macアプリは英語、フランス語、スペイン語に対応しています。"
+  "appLanguages": "Macアプリは英語、フランス語、スペイン語に対応しています。",
+  "navFormats": "対応形式",
+  "formatsTitle": "対応する画像形式",
+  "formatsIntro": "PixMinima は 32 種類の拡張子を認識します。ファイルサイズの上限は 1 ファイルあたり 256 MiB です。",
+  "commonFormats": "一般的な画像形式",
+  "rasterFormats": "その他のラスター画像形式",
+  "designFormats": "デザイン・制作用の形式",
+  "vectorFormats": "ベクター画像とアイコン",
+  "containerFormats": "画像コンテナ形式",
+  "containerNote": "HEIC、HEIF、AVIF、JPEG XL では、符号化された画像データをそのまま保持しながら、コンテナのサイズを小さくできる場合があります。",
+  "lossyFormats": "条件を満たす静止画の PNG、JPEG、GIF、可逆圧縮の WebP では、非可逆圧縮も選べます。その他の形式には可逆圧縮による最適化を使います。"
 }

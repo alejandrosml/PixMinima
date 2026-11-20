@@ -25,5 +25,15 @@
   "license": "GPL 버전 3 이상",
   "third": "타사 라이선스",
   "alt": "PixMinima 화면에 각 파일의 최종 크기와 절감률이 표시되어 있습니다.",
-  "appLanguages": "Mac 앱은 영어, 프랑스어, 스페인어로 제공됩니다."
+  "appLanguages": "Mac 앱은 영어, 프랑스어, 스페인어로 제공됩니다.",
+  "navFormats": "형식",
+  "formatsTitle": "지원하는 이미지 형식",
+  "formatsIntro": "PixMinima는 파일 확장자 32종을 인식합니다. 파일 하나당 최대 크기는 256 MiB입니다.",
+  "commonFormats": "일반 이미지 형식",
+  "rasterFormats": "기타 래스터 이미지 형식",
+  "designFormats": "디자인 및 제작용 형식",
+  "vectorFormats": "벡터 이미지 및 아이콘",
+  "containerFormats": "이미지 컨테이너 형식",
+  "containerNote": "HEIC, HEIF, AVIF, JPEG XL 파일은 인코딩된 이미지 스트림을 그대로 유지하면서 컨테이너 크기를 줄일 수 있습니다.",
+  "lossyFormats": "조건에 맞는 정지 PNG 이미지, JPEG, GIF 및 무손실 WebP에는 손실 압축을 선택할 수 있습니다. 다른 모든 형식에는 무손실 최적화를 사용합니다."
 }

@@ -25,5 +25,15 @@
   "alt": "PixMinima muestra el tamaño final y el porcentaje ahorrado para cada archivo.",
   "system": "Automático (idioma del navegador)",
   "description": "PixMinima comprime imágenes en tu Mac. Compresión sin pérdida por defecto, opción con pérdida, resultados por archivo y código abierto.",
-  "appLanguages": "La aplicación para Mac está disponible en español, francés e inglés."
+  "appLanguages": "La aplicación para Mac está disponible en español, francés e inglés.",
+  "navFormats": "Formatos",
+  "formatsTitle": "Formatos de imagen compatibles",
+  "formatsIntro": "PixMinima reconoce 32 extensiones. El tamaño máximo es de 256 MiB por archivo.",
+  "commonFormats": "Formatos habituales",
+  "rasterFormats": "Otros formatos de mapa de bits",
+  "designFormats": "Diseño y producción gráfica",
+  "vectorFormats": "Imágenes vectoriales e iconos",
+  "containerFormats": "Contenedores de imágenes",
+  "containerNote": "En los archivos HEIC, HEIF, AVIF y JPEG XL, PixMinima puede reducir el tamaño del contenedor sin modificar los datos de imagen codificados.",
+  "lossyFormats": "La compresión con pérdida es opcional y está disponible para determinados PNG estáticos, JPEG y GIF, así como para los WebP compatibles que ya están codificados sin pérdida. Los demás formatos se optimizan sin pérdida."
 }

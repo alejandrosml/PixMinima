@@ -25,5 +25,15 @@
   "alt": "PixMinima zeigt für jede Datei die endgültige Größe und die prozentuale Ersparnis an.",
   "system": "Automatisch (Browsersprache)",
   "description": "PixMinima komprimiert Bilder auf deinem Mac standardmäßig verlustfrei. Mit optionaler verlustbehafteter Komprimierung, Ergebnissen pro Datei und offenem Quellcode.",
-  "appLanguages": "Die Mac-App ist auf Englisch, Französisch und Spanisch verfügbar."
+  "appLanguages": "Die Mac-App ist auf Englisch, Französisch und Spanisch verfügbar.",
+  "navFormats": "Formate",
+  "formatsTitle": "Unterstützte Bildformate",
+  "formatsIntro": "PixMinima erkennt 32 Dateiendungen. Eine Datei darf bis zu 256 MiB groß sein.",
+  "commonFormats": "Gängige Bildformate",
+  "rasterFormats": "Weitere Rasterformate",
+  "designFormats": "Grafik und Bildproduktion",
+  "vectorFormats": "Vektorgrafiken und Symbole",
+  "containerFormats": "Bildcontainer",
+  "containerNote": "Bei HEIC, HEIF, AVIF und JPEG XL kann PixMinima den Container verkleinern. Die kodierten Bilddaten bleiben unverändert.",
+  "lossyFormats": "Verlustbehaftete Komprimierung ist für geeignete statische PNGs, JPEGs, GIFs und verlustfrei kodierte WebP-Dateien zuschaltbar. Alle anderen Formate werden verlustfrei optimiert."
 }
