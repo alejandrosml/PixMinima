@@ -40,6 +40,7 @@ async function display() {
   const words = catalogs.get(lang);
   const appLang = ['fr','en','es'].includes(lang) ? lang : 'en';
   document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+  document.querySelector('.asml-portfolio').href = 'https://alejandrosml.github.io/?lang=' + document.documentElement.lang + '#projects';
   document.title = 'PixMinima · ' + words.title;
   description.content = words.description;
   nodes.forEach(n => { n.textContent = words[n.dataset.key]; });

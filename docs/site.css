@@ -62,3 +62,8 @@ footer p { margin-top: 5px; }
   .mast nav { flex-wrap: wrap; margin-left: auto; }
   .formats dl > div { grid-template-columns: minmax(0,1fr); gap: 7px; }
 }
+
+a.asml-portfolio {display:inline-flex;align-items:center;gap:.55em;min-height:36px;padding:.25em .82em;box-sizing:border-box;border:1px solid currentColor;border-color:color-mix(in srgb,currentColor 34%,transparent);border-radius:99px;color:inherit;text-decoration:none;font:inherit;font-size:.87rem;line-height:1.3;vertical-align:middle;}
+a.asml-portfolio .asml-mark {font:600 .73rem/1.2 ui-monospace,monospace;letter-spacing:.06em;padding-right:.52em;border-right:1px solid currentColor;}
+a.asml-portfolio:hover,a.asml-portfolio:focus-visible {border-color:currentColor;text-decoration:none;background:color-mix(in srgb,currentColor 7%,transparent);}
+a.asml-portfolio:focus-visible {outline:2px solid currentColor;outline-offset:3px;}
