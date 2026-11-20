@@ -15,6 +15,8 @@ The development Mac was an Apple M1 Max with 10 CPU cores, a 32-core GPU and 64 
 | ICNS | Apple's iconutil and a separate FFmpeg decode for every PNG in the extracted icon set | An icon containing ten PNG renditions fell from 92,832 to 51,794 bytes at standard effort. Every decoded RGBA64 rendition matched. |
 | JPEG XL container | Reference cjxl/djxl encode, decode and XMP extraction | A fixture with 23,403 bytes of repetitive XML shrank from 23,634 to 394 bytes. Uncompressed XML and decoded PPM matched. An archive with JPEG reconstruction returned the same JPEG hash. |
 
+An independent in-place test on copies of 20 additional GIF, TIFF and WebP files found matching samples and metadata across all 44 frames or pages and retained every tested macOS file attribute, with 11 files reduced in size.
+
 Synthetic examples with repeated data exercise specific encoders. Their savings describe the named fixtures. The separate comparison uses public photographic and illustration inputs. [Comparative evidence](../bench/)
 
 ## Optional lossy compression

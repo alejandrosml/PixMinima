@@ -21,6 +21,8 @@ With the default lossless setting, PixMinima keeps the smallest verified candida
 | HEIC, HEIF, AVIF | Box headers, local item-location tables and explicit zero-filled padding in supported still images | Every media byte, every item extent and supported property payloads. Sequences, external data references, unknown properties, provenance boxes and opaque metadata retain their layout. Codec payloads stay bit-identical. |
 | JPEG XL | Adjacent codestream fragments, redundant wrapping and eligible Brotli metadata boxes | The concatenated JPEG XL codestream and original uncompressed metadata bytes. Frame indexes, unsupported brands, opaque and signed boxes retain their layout. A bare codestream is passed through. |
 
+With libtiff 4.7.2, `tiffcp -p contig` can fail when converting separate sample planes into interleaved pixels because it requests random access within a compressed strip. To convert such a TIFF, first run `tiffcp -c none optimized.tif uncompressed.tif`, then run `tiffcp -p contig uncompressed.tif contiguous.tif`. On a three-page test file, the result matched a direct conversion of the original in all 89,344 bytes of decoded samples and all image metadata checked.
+
 Standalone files are identified from their contents. Directory scans select the registered extensions. The input limit is 256 MiB per file. Individual codecs also limit expanded samples, dimensions, frames, chunks or member counts. The app reports malformed or over-limit input and preserves the source. An unsupported variant with a known conservative pass-through can report zero savings.
 
 ## Optional lossy compression
