@@ -841,8 +841,17 @@ fn main() -> eframe::Result {
         .with_inner_size([742., 540.])
         .with_min_inner_size([375., 420.])
         .with_app_id("io.github.alejandrosml.PixMinima");
+    #[cfg(not(target_os = "macos"))]
+    let viewport = viewport.with_icon(
+        eframe::icon_data::from_png_bytes(include_bytes!(
+            "../../../docs/images/pixminima-icon.png"
+        ))
+        .expect("the embedded PixMinima icon must be a valid PNG"),
+    );
     #[cfg(target_os = "macos")]
     let viewport = viewport
+        // Let the Dock use the signed bundle’s multi-resolution PixMinima.icns.
+        .with_icon(egui::IconData::default())
         .with_fullsize_content_view(true)
         .with_title_shown(false)
         .with_titlebar_shown(false)
