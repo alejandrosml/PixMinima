@@ -57,7 +57,11 @@ pub fn requantize_jpeg_with(data: &[u8], limits: &Limits, thorough: bool) -> Opt
                 if old == 0 {
                     return None;
                 }
-                let target = if fine_source { floor[k] } else { (3 * floor[k]).div_ceil(2) };
+                let target = if fine_source {
+                    floor[k]
+                } else {
+                    (3 * floor[k]).div_ceil(2)
+                };
                 let new = if used && k >= 6 { old.max(target) } else { old };
                 changed |= old != new;
                 *value = u16::from(new);
