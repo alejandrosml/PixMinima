@@ -1,0 +1,140 @@
+[
+  {
+    "name": "hopper_orientation_6.webp",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/hopper_orientation_6.webp",
+    "sha256": "a3c459c87897317667a914d6d07ac57482258ef9baf9adf7bae17a411c65fd3c",
+    "bytes": 3676
+  },
+  {
+    "name": "transparent.webp",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/transparent.webp",
+    "sha256": "5246bcda64468e7343538104996f7e2589df4d42192630e7b6370a50df550a80",
+    "bytes": 8094
+  },
+  {
+    "name": "flower.webp",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/flower.webp",
+    "sha256": "af5bf1a0e420467c09d221fbfbb739646956c17f2b67f8280eacfacf87059a37",
+    "bytes": 29556
+  },
+  {
+    "name": "flower2.webp",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/flower2.webp",
+    "sha256": "94d4f2deeb5d8b04d4aaf1173a34647e6743ecc7076987f7eb98522522b78846",
+    "bytes": 21552
+  },
+  {
+    "name": "different_transparency.gif",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/different_transparency.gif",
+    "sha256": "7d925d275b63eb80eb077e6a7fbfeac5e679eb22cf7c9a59441173967861cd77",
+    "bytes": 4118
+  },
+  {
+    "name": "dispose_prev.gif",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/dispose_prev.gif",
+    "sha256": "7a5ad1fe2d055cabda5b198941f3ebb2315023be128cc7278061f05eca8da076",
+    "bytes": 1450
+  },
+  {
+    "name": "palette_not_needed_for_second_frame.gif",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/palette_not_needed_for_second_frame.gif",
+    "sha256": "eab1bdfbddac24cf520af7e59df4b304e865df5804eee045ec9fc612339c7939",
+    "bytes": 29116
+  },
+  {
+    "name": "transparent.gif",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/transparent.gif",
+    "sha256": "19f52ee71b5a4f329ccadfb4677be66828cbf09aea4f840f2e609786056aaf7a",
+    "bytes": 9678
+  },
+  {
+    "name": "cat.gif",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/doc/images/cat.gif",
+    "sha256": "ed2814eeef7e921c3147d331a1e31bacef5ec590097843e7f0316412ee20c953",
+    "bytes": 12477
+  },
+  {
+    "name": "oxford.gif",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/doc/images/oxford.gif",
+    "sha256": "cf30c0be907027287a1b9fd76d60da18bde6cc231928510d40852283dc666e51",
+    "bytes": 6069
+  },
+  {
+    "name": "minisblack-2c-8b-alpha.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/minisblack-2c-8b-alpha.tiff",
+    "sha256": "6fcb5238fb9bd583cd78b27c51b16492d17d4768032f9ee1ed10f2d2f45730c9",
+    "bytes": 4068
+  },
+  {
+    "name": "rgb-3c-16b.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/rgb-3c-16b.tiff",
+    "sha256": "31ff3a1f416cb7281acfbcbb4b56ee8bb94e9f91489602ff2806e5a49abc03c0",
+    "bytes": 142670
+  },
+  {
+    "name": "palette-1c-8b.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/palette-1c-8b.tiff",
+    "sha256": "9ef8051e9aa19f7439fdec77c7e5bdffef442572937287a83b5938bd02464286",
+    "bytes": 25548
+  },
+  {
+    "name": "lzw-single-strip.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/lzw-single-strip.tiff",
+    "sha256": "9cbff8fbe7a487da5d56e7e7566c0f3984e7092a3b1ccfe6bc1461449d008e4e",
+    "bytes": 76264
+  },
+  {
+    "name": "custom_dir_EXIF_GPS.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/custom_dir_EXIF_GPS.tiff",
+    "sha256": "70bbe67a6d1db0e562690505578ef798f61969b8c609c8886bd8545b4f9c1126",
+    "bytes": 2504
+  },
+  {
+    "name": "ojpeg_zackthecat_subsamp22_single_strip.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/ojpeg_zackthecat_subsamp22_single_strip.tiff",
+    "sha256": "0d31f2acb25bfbde4d79975572369c3e4bea8e978fc1935075a545e3f8321b6e",
+    "bytes": 8258
+  },
+  {
+    "name": "deflate-last-strip-extra-data.tiff",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/deflate-last-strip-extra-data.tiff",
+    "sha256": "031aa7e15c2dfb21fe2fdd89eff88c4505c306f641be8b98f3666707d698b5ae",
+    "bytes": 12789
+  },
+  {
+    "name": "tiff_with_subifd_chain.tif",
+    "url": "https://gitlab.com/libtiff/libtiff/-/raw/f38ffa35db47d7070ae05a1b63f2b554d07560b4/test/images/tiff_with_subifd_chain.tif",
+    "sha256": "e50130294baf254b8ab54a46b96e8d8d13abe840e4d8a447086028375de97c37",
+    "bytes": 19484
+  },
+  {
+    "name": "animation_patches.gif",
+    "url": "https://raw.githubusercontent.com/libjxl/testdata/ff8d743aaba05b3014f17e5475e576242fa979fc/jxl/animation_patches.gif",
+    "sha256": "b051fcb81fe41621742a3831383bd18fff797001f707e73e750b10ab52ffb485",
+    "bytes": 19125
+  },
+  {
+    "name": "traffic_light.gif",
+    "url": "https://raw.githubusercontent.com/libjxl/testdata/ff8d743aaba05b3014f17e5475e576242fa979fc/jxl/traffic_light.gif",
+    "sha256": "ce1fddbf2e4d415a58cd0b5e1f523136930d27878f91b32dcfea0fa12eab5f39",
+    "bytes": 1088
+  },
+  {
+    "name": "hopper.iccprofile.tif",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/hopper.iccprofile.tif",
+    "sha256": "c4656984ee90693d4c5cd8c649260e9ec44a1fa5ccda0dd3e5332ae3e7dbc6b9",
+    "bytes": 52500
+  },
+  {
+    "name": "hopper.iccprofile_binary.tif",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/hopper.iccprofile_binary.tif",
+    "sha256": "8030d3863ef526fefbb6f7cab6661090953da88c566c0a7a6a3755e83bfad86a",
+    "bytes": 52500
+  },
+  {
+    "name": "g4_orientation_6.tif",
+    "url": "https://raw.githubusercontent.com/python-pillow/Pillow/11.3.0/Tests/images/g4_orientation_6.tif",
+    "sha256": "679f835a1741917b6235fc0870d0fca8d69ea5111a399312497122ce481342c5",
+    "bytes": 1024
+  }
+]

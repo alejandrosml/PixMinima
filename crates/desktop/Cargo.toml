@@ -1,0 +1,31 @@
+[package]
+name = "pixminima-desktop"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Desktop interface for PixMinima image compression"
+
+[features]
+archive-jxl = ["pixminima-core/archive-jxl"]
+
+[dependencies]
+pixminima-core = { path = "../core", features = ["metal"] }
+eframe = { version = "0.37", default-features = false, features = ["accesskit", "default_fonts", "persistence", "wgpu", "wayland", "x11"] }
+rfd = "0.18"
+sys-locale = "0.3"
+
+[lints]
+workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+fmv-macos-events = "=0.1.0"
+muda = { version = "0.21", default-features = false }
+rustix = { version = "=1.1.6", features = ["fs"] }
+semver = "1"
+serde_json = "1"
+tempfile = "3"
+
+[dev-dependencies]
+tempfile = "3"
+egui_kittest = { version = "0.37", features = ["eframe", "wgpu"] }

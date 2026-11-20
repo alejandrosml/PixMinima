@@ -1,0 +1,437 @@
+#![forbid(unsafe_code)]
+#![deny(trivial_casts, trivial_numeric_casts, missing_docs)]
+
+//! A faster fork of the [Zopfli](https://github.com/google/zopfli) compression library.
+//!
+//! Zopfli is a DEFLATE compressor that produces near-optimal output at the cost of speed.
+//! zenzop produces identical output to zopfli but runs 1.2–2x faster through algorithmic
+//! improvements: precomputed cost tables, SIMD-accelerated match comparison, and a skip-hash
+//! optimization that eliminates redundant hash chain walks on cached iterations.
+//!
+//! With [`Options::enhanced`] enabled, zenzop applies ECT-derived optimizations — expanded
+//! precode search, multi-strategy Huffman tree selection, and enhanced parser diversification —
+//! to produce smaller output than standard Zopfli.
+//!
+//! # Features
+//!
+//! This crate exposes the following features. You can enable or disable them in your `Cargo.toml`
+//! as needed.
+//!
+//! - `gzip` (enabled by default): enables support for compression in the gzip format.
+//! - `zlib` (enabled by default): enables support for compression in the Zlib format.
+//! - `std` (enabled by default): enables linking against the Rust standard library. When not enabled,
+//!   the crate is built with the `#![no_std]` attribute and can be used in any environment where
+//!   [`alloc`](https://doc.rust-lang.org/alloc/) (i.e., a memory allocator) is available. In addition,
+//!   the crate exposes minimalist versions of the `std` I/O traits it needs to function, allowing users
+//!   to implement them.
+
+#![cfg_attr(not(feature = "std"), no_std)]
+
+// No-op log implementation for no-std targets
+#[cfg(not(feature = "std"))]
+macro_rules! debug {
+    ( $( $_:expr ),* ) => {};
+}
+#[cfg(not(feature = "std"))]
+macro_rules! trace {
+    ( $( $_:expr ),* ) => {};
+}
+#[cfg(not(feature = "std"))]
+macro_rules! log_enabled {
+    ( $( $_:expr ),* ) => {
+        false
+    };
+}
+
+#[cfg_attr(not(feature = "std"), macro_use)]
+extern crate alloc;
+
+pub use deflate::{BlockType, CompressResult, DeflateEncoder};
+pub use enough::{Stop, StopReason, Unstoppable};
+#[cfg(feature = "gzip")]
+pub use gzip::GzipEncoder;
+#[cfg(all(test, feature = "std"))]
+use proptest::prelude::*;
+#[cfg(feature = "zlib")]
+pub use zlib::ZlibEncoder;
+
+mod blocksplitter;
+mod cache;
+mod deflate;
+#[cfg(feature = "gzip")]
+mod gzip;
+mod hash;
+#[cfg(any(doc, not(feature = "std")))]
+mod io;
+mod iter;
+mod katajainen;
+mod lz77;
+#[cfg(not(feature = "std"))]
+mod math;
+mod squeeze;
+mod symbols;
+mod tree;
+mod util;
+#[cfg(feature = "zlib")]
+mod zlib;
+
+use core::num::NonZeroU64;
+#[cfg(all(not(doc), feature = "std"))]
+use std::io::{Error, Write};
+
+#[cfg(any(doc, not(feature = "std")))]
+pub use io::{Error, ErrorKind, Write};
+
+/// Convert a [`StopReason`] into the crate's I/O error type.
+#[cfg(all(not(doc), feature = "std"))]
+fn stop_to_error(reason: StopReason) -> Error {
+    Error::other(match reason {
+        StopReason::Cancelled => "operation cancelled",
+        StopReason::TimedOut => "operation timed out",
+        _ => "operation stopped",
+    })
+}
+
+/// Convert a [`StopReason`] into the crate's I/O error type.
+#[cfg(any(doc, not(feature = "std")))]
+fn stop_to_error(_reason: StopReason) -> Error {
+    io::ErrorKind::Cancelled.into()
+}
+
+/// Options for the Zopfli compression algorithm.
+///
+/// # Examples
+///
+/// ```
+/// use zenzop::Options;
+/// use core::num::NonZeroU64;
+///
+/// // Use defaults (15 iterations)
+/// let opts = Options::default();
+/// assert_eq!(opts.iteration_count.get(), 15);
+///
+/// // Customize iteration count for faster compression
+/// let mut opts = Options::default();
+/// opts.iteration_count = NonZeroU64::new(5).unwrap();
+/// ```
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[cfg_attr(all(test, feature = "std"), derive(proptest_derive::Arbitrary))]
+#[non_exhaustive]
+pub struct Options {
+    /// Maximum amount of times to rerun forward and backward pass to optimize LZ77
+    /// compression cost.
+    /// Good values: 10, 15 for small files, 5 for files over several MB in size or
+    /// it will be too slow.
+    ///
+    /// Default value: 15.
+    #[cfg_attr(
+        all(test, feature = "std"),
+        proptest(
+            strategy = "(1..=10u64).prop_map(|iteration_count| NonZeroU64::new(iteration_count).unwrap())"
+        )
+    )]
+    pub iteration_count: NonZeroU64,
+    /// Stop after rerunning forward and backward pass this many times without finding
+    /// a smaller representation of the block.
+    ///
+    /// Default value: practically infinite (maximum `u64` value)
+    pub iterations_without_improvement: NonZeroU64,
+    /// Maximum amount of blocks to split into (0 for unlimited, but this can give
+    /// extreme results that hurt compression on some files).
+    ///
+    /// Default value: 15.
+    pub maximum_block_splits: u16,
+    /// The type of DEFLATE blocks to generate.
+    ///
+    /// [`Dynamic`](BlockType::Dynamic) (the default) lets the algorithm choose the
+    /// most space-efficient block types automatically. Use other variants only for
+    /// testing or specialized scenarios.
+    ///
+    /// Default value: [`BlockType::Dynamic`].
+    pub block_type: BlockType,
+    /// Enable ECT-derived optimizations for smaller output.
+    ///
+    /// When `true`, applies expanded precode search (A1), multi-strategy
+    /// Huffman tree selection (A2), and enhanced parser diversification (A3).
+    /// This produces smaller DEFLATE output at the cost of byte-for-byte
+    /// parity with upstream C Zopfli.
+    ///
+    /// Default value: `false`.
+    pub enhanced: bool,
+}
+
+impl Default for Options {
+    fn default() -> Self {
+        Self {
+            iteration_count: NonZeroU64::new(15).unwrap(),
+            iterations_without_improvement: NonZeroU64::new(u64::MAX).unwrap(),
+            maximum_block_splits: 15,
+            block_type: BlockType::Dynamic,
+            enhanced: false,
+        }
+    }
+}
+
+/// The output file format to use to store data compressed with Zopfli.
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[cfg(feature = "std")]
+pub enum Format {
+    /// The gzip file format, as defined in
+    /// [RFC 1952](https://datatracker.ietf.org/doc/html/rfc1952).
+    ///
+    /// This file format can be easily decompressed with the gzip
+    /// program.
+    #[cfg(feature = "gzip")]
+    Gzip,
+    /// The zlib file format, as defined in
+    /// [RFC 1950](https://datatracker.ietf.org/doc/html/rfc1950).
+    ///
+    /// The zlib format has less header overhead than gzip, but it
+    /// stores less metadata.
+    #[cfg(feature = "zlib")]
+    Zlib,
+    /// The raw DEFLATE stream format, as defined in
+    /// [RFC 1951](https://datatracker.ietf.org/doc/html/rfc1951).
+    ///
+    /// Raw DEFLATE streams are not meant to be stored as-is because
+    /// they lack error detection and correction metadata. They
+    /// are usually embedded in other file formats, such as gzip
+    /// and zlib.
+    Deflate,
+}
+
+/// Compresses data from a source with the Zopfli algorithm, using the specified
+/// options, and writes the result to a sink in the defined output format.
+///
+/// # Examples
+///
+/// ```
+/// use zenzop::{Options, Format};
+///
+/// let data = b"The quick brown fox jumps over the lazy dog";
+/// let mut compressed = Vec::new();
+/// zenzop::compress(Options::default(), Format::Deflate, &data[..], &mut compressed).unwrap();
+/// assert!(!compressed.is_empty());
+/// ```
+#[cfg(feature = "std")]
+pub fn compress<R: std::io::Read, W: Write>(
+    options: Options,
+    output_format: Format,
+    mut in_data: R,
+    out: W,
+) -> Result<(), Error> {
+    match output_format {
+        #[cfg(feature = "gzip")]
+        Format::Gzip => {
+            let mut encoder = GzipEncoder::new_buffered(options, out)?;
+            std::io::copy(&mut in_data, &mut encoder)?;
+            encoder.into_inner()?.finish().map(|_| ())
+        }
+        #[cfg(feature = "zlib")]
+        Format::Zlib => {
+            let mut encoder = ZlibEncoder::new_buffered(options, out)?;
+            std::io::copy(&mut in_data, &mut encoder)?;
+            encoder.into_inner()?.finish().map(|_| ())
+        }
+        Format::Deflate => {
+            let mut encoder = DeflateEncoder::new_buffered(options, out);
+            std::io::copy(&mut in_data, &mut encoder)?;
+            encoder.into_inner()?.finish().map(|_| ())
+        }
+    }
+}
+
+#[cfg(all(test, feature = "std"))]
+mod test {
+    use std::io;
+
+    use miniz_oxide::inflate;
+    use proptest::proptest;
+
+    use super::*;
+
+    proptest! {
+        #[test]
+        fn deflating_is_reversible(
+            options: Options,
+            data in prop::collection::vec(any::<u8>(), 0..64 * 1024)
+        ) {
+            let mut compressed_data = Vec::with_capacity(data.len());
+
+            let mut encoder = DeflateEncoder::new(options, &mut compressed_data);
+            io::copy(&mut &*data, &mut encoder).unwrap();
+            encoder.finish().unwrap();
+
+            let decompressed_data = inflate::decompress_to_vec(&compressed_data).expect("Could not inflate compressed stream");
+            prop_assert_eq!(data, decompressed_data, "Decompressed data should match input data");
+        }
+    }
+
+    #[test]
+    fn enhanced_produces_valid_deflate() {
+        let data = b"The quick brown fox jumps over the lazy dog. \
+                     The quick brown fox jumps over the lazy dog. \
+                     The quick brown fox jumps over the lazy dog.";
+        let mut compressed = Vec::new();
+        let options = Options {
+            enhanced: true,
+            iteration_count: core::num::NonZeroU64::new(5).unwrap(),
+            ..Options::default()
+        };
+        let mut encoder = DeflateEncoder::new(options, &mut compressed);
+        io::copy(&mut &data[..], &mut encoder).unwrap();
+        encoder.finish().unwrap();
+
+        let decompressed =
+            inflate::decompress_to_vec(&compressed).expect("Enhanced DEFLATE output must be valid");
+        assert_eq!(&data[..], &decompressed[..]);
+    }
+
+    #[test]
+    fn enhanced_output_no_larger_than_standard() {
+        // Generate test data with enough structure for compression to matter
+        let mut data = Vec::with_capacity(16384);
+        for i in 0..16384u16 {
+            // Mix of repetitive and varied content
+            data.push((i % 256) as u8);
+            if i % 7 == 0 {
+                data.extend_from_slice(b"repeat");
+            }
+        }
+
+        let compress = |enhanced: bool| -> Vec<u8> {
+            let mut compressed = Vec::new();
+            let options = Options {
+                enhanced,
+                iteration_count: core::num::NonZeroU64::new(10).unwrap(),
+                ..Options::default()
+            };
+            let mut encoder = DeflateEncoder::new(options, &mut compressed);
+            io::copy(&mut &data[..], &mut encoder).unwrap();
+            encoder.finish().unwrap();
+            compressed
+        };
+
+        let standard = compress(false);
+        let enhanced = compress(true);
+
+        assert!(
+            enhanced.len() <= standard.len(),
+            "Enhanced ({} bytes) should be <= standard ({} bytes)",
+            enhanced.len(),
+            standard.len()
+        );
+
+        // Verify enhanced output decompresses correctly
+        let decompressed =
+            inflate::decompress_to_vec(&enhanced).expect("Enhanced output must decompress");
+        assert_eq!(&data[..], &decompressed[..]);
+    }
+
+    /// Extract filtered IDAT data from a PNG file by decompressing the zlib stream.
+    fn extract_png_idat(png_data: &[u8]) -> Vec<u8> {
+        // Parse PNG chunks, concatenate IDAT data
+        let mut idat_data = Vec::new();
+        let mut pos = 8; // Skip PNG signature
+        while pos + 12 <= png_data.len() {
+            let len = u32::from_be_bytes(png_data[pos..pos + 4].try_into().unwrap()) as usize;
+            let chunk_type = &png_data[pos + 4..pos + 8];
+            if chunk_type == b"IDAT" {
+                idat_data.extend_from_slice(&png_data[pos + 8..pos + 8 + len]);
+            }
+            pos += 12 + len; // length + type + data + CRC
+        }
+        // Decompress the zlib stream to get filtered scanline data
+        inflate::decompress_to_vec_zlib(&idat_data).expect("Failed to decompress IDAT")
+    }
+
+    #[test]
+    fn enhanced_vs_standard_on_png_idat() {
+        let test_pngs: &[(&str, &[u8])] = &[
+            ("eeyore.png", include_bytes!("../test/data/eeyore.png")),
+            (
+                "heartbleed.png",
+                include_bytes!("../test/data/heartbleed.png"),
+            ),
+            ("computer.png", include_bytes!("../test/data/computer.png")),
+        ];
+
+        for &(name, png_data) in test_pngs {
+            let filtered = extract_png_idat(png_data);
+
+            let compress = |enhanced: bool| -> Vec<u8> {
+                let mut compressed = Vec::new();
+                let options = Options {
+                    enhanced,
+                    iteration_count: core::num::NonZeroU64::new(15).unwrap(),
+                    ..Options::default()
+                };
+                let mut encoder = DeflateEncoder::new(options, &mut compressed);
+                io::copy(&mut &*filtered, &mut encoder).unwrap();
+                encoder.finish().unwrap();
+                compressed
+            };
+
+            let standard = compress(false);
+            let enhanced = compress(true);
+
+            eprintln!(
+                "{name}: idat={} bytes, standard={} enhanced={} saved={} ({:.3}%)",
+                filtered.len(),
+                standard.len(),
+                enhanced.len(),
+                standard.len() as i64 - enhanced.len() as i64,
+                (1.0 - enhanced.len() as f64 / standard.len() as f64) * 100.0,
+            );
+
+            let decompressed =
+                inflate::decompress_to_vec(&enhanced).expect("Enhanced output must decompress");
+            assert_eq!(filtered, decompressed);
+        }
+    }
+
+    #[test]
+    fn enhanced_vs_standard_size_report() {
+        let test_files: &[(&str, &[u8])] = &[
+            (
+                "calgary-books-32k",
+                &include_bytes!("../test/data/calgary-books.txt")[..32768],
+            ),
+            (
+                "codetriage.js",
+                include_bytes!("../test/data/codetriage.js"),
+            ),
+        ];
+
+        for &(name, data) in test_files {
+            let compress = |enhanced: bool| -> Vec<u8> {
+                let mut compressed = Vec::new();
+                let options = Options {
+                    enhanced,
+                    iteration_count: core::num::NonZeroU64::new(15).unwrap(),
+                    ..Options::default()
+                };
+                let mut encoder = DeflateEncoder::new(options, &mut compressed);
+                io::copy(&mut &*data, &mut encoder).unwrap();
+                encoder.finish().unwrap();
+                compressed
+            };
+
+            let standard = compress(false);
+            let enhanced = compress(true);
+
+            eprintln!(
+                "{name} ({} bytes): standard={} enhanced={} saved={} ({:.3}%)",
+                data.len(),
+                standard.len(),
+                enhanced.len(),
+                standard.len() as i64 - enhanced.len() as i64,
+                (1.0 - enhanced.len() as f64 / standard.len() as f64) * 100.0,
+            );
+
+            let decompressed =
+                inflate::decompress_to_vec(&enhanced).expect("Enhanced output must decompress");
+            assert_eq!(data, &decompressed[..]);
+        }
+    }
+}

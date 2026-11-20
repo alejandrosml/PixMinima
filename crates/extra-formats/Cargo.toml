@@ -1,0 +1,15 @@
+[package]
+name = "pixminima-extra"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Lossless Photoshop, OpenEXR, QOI, TGA and Netpbm optimizers"
+
+[dependencies]
+pixminima-png = { path = "../png-engine" }
+miniz_oxide = { version = "=0.9.1", default-features = false, features = ["with-alloc"] }
+zune-core = { version = "=0.5.3", default-features = false, features = ["std"] }
+zune-qoi = { version = "=0.5.2", default-features = false, features = ["std"] }
+
+[lints]
+workspace = true

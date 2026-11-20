@@ -1,0 +1,29 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+exclude = ["crates/formats/vendor/smallpeg", "vendor/alloc-no-stdlib", "vendor/zenzop"]
+default-members = ["crates/cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/alejandrosml/PixMinima"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = "debuginfo"
+
+[profile.dev]
+debug = 0
+
+[profile.test]
+debug = 0
+
+[patch.crates-io]
+alloc-no-stdlib = { path = "vendor/alloc-no-stdlib" }
+zenzop = { path = "vendor/zenzop" }

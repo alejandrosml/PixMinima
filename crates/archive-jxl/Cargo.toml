@@ -1,0 +1,18 @@
+[package]
+name = "pixminima-jxl"
+version = "0.1.0"
+edition = "2024"
+license = "GPL-3.0-or-later"
+description = "Opt-in byte-verified JPEG XL archival and restoration for PixMinima"
+
+[features]
+default = []
+archive = ["dep:jixel", "dep:zenjxl-decoder", "dep:brotli-decompressor"]
+
+[dependencies]
+brotli-decompressor = { version = "=5.0.3", optional = true }
+jixel = { version = "=0.5.13", default-features = false, optional = true }
+zenjxl-decoder = { version = "=0.3.10", default-features = false, features = ["jpeg"], optional = true }
+
+[lints]
+workspace = true

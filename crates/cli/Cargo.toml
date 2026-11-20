@@ -1,0 +1,20 @@
+[package]
+name = "pixminima"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Image optimizer with lossless defaults and optional bounded lossy encoding"
+
+[lints]
+workspace = true
+
+[features]
+metal = ["pixminima-core/metal"]
+archive-jxl = ["pixminima-core/archive-jxl"]
+
+[dependencies]
+pixminima-core = {path = "../core"}
+serde_json = "1"
+
+[dev-dependencies]
+tempfile = "3"

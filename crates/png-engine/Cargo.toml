@@ -1,0 +1,15 @@
+[package]
+name = "pixminima-png"
+version = "0.1.0"
+edition = "2024"
+license = "GPL-3.0-or-later"
+description = "Verified, lossless PNG and APNG optimization for PixMinima"
+
+[dependencies]
+exoquant = { version = "=0.2.0", default-features = false }
+miniz_oxide = { version = "=0.9.1", default-features = false, features = ["with-alloc"] }
+adler2 = { version = "2.0", default-features = false }
+zenzop = { path = "../../vendor/zenzop", version = "=0.4.2", default-features = false }
+
+[lints.rust]
+unsafe_code = "forbid"

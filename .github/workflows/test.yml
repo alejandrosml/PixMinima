@@ -1,0 +1,32 @@
+name: Build and verify
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          persist-credentials: false
+      - name: Install Linux desktop development libraries
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libxkbcommon-dev libwayland-dev libasound2-dev libudev-dev
+      - name: Select stable Rust
+        run: rustup update stable --no-self-update
+      - name: Verify website languages and regional choices
+        if: runner.os == 'Linux'
+        run: node --test scripts/test-site.mjs
+      - name: Test defaults
+        run: cargo +stable test --locked --workspace
+      - name: Check optional reversible JPEG archival
+        run: cargo +stable test --locked -p pixminima-jxl --features archive
+      - name: Audit the codec dependency graph
+        if: runner.os != 'Windows'
+        run: ./scripts/audit-codecs.py

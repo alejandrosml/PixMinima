@@ -1,0 +1,119 @@
+[
+  {
+    "name": "astronaut",
+    "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/astronaut.png",
+    "width": 512,
+    "height": 512,
+    "source_sha256": "88431cd9653ccd539741b555fb0a46b61558b301d4110412b5bc28b5e3ea6cb5",
+    "rgba_sha256": "0df3c62c654dd5432e753a8d273e73ad3fb7d5826848b395afaead620b89bdd0",
+    "png_sha256": "e8b9350922893fca450d12434358c64752c44322d21c574ba6c9f987fc41f14c"
+  },
+  {
+    "name": "text",
+    "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/bw_text.png",
+    "width": 516,
+    "height": 333,
+    "source_sha256": "308c2b09f8975a69b212e103b18520e8cbb7a4eccfce0f757836cd371f1b9094",
+    "rgba_sha256": "ee8ba170721675bb2c5e72678c54a27c18b753eb06b0bcbb18364f2f9afdc3fc",
+    "png_sha256": "7e39921bcde95a59b71f345eb045ea24b169294a99106d8b559664c381bf81a3"
+  },
+  {
+    "name": "logo",
+    "url": "https://raw.githubusercontent.com/scikit-image/scikit-image/v0.25.2/skimage/data/logo.png",
+    "width": 500,
+    "height": 500,
+    "source_sha256": "f2c57fe8af089f08b5ba523d95573c26e62904ac5967f4c8851b27d033690168",
+    "rgba_sha256": "6093a9df46aeb00e6b3c2942ef0e2831434fa1bab2779ffa6e473cd057e82598",
+    "png_sha256": "8d2f27291ff0938e5dc958cd61b669929aa1de010fcea0cd61fbed806f911877"
+  },
+  {
+    "name": "render",
+    "url": "https://raw.githubusercontent.com/godotengine/godot-docs/3.5/tutorials/3d/img/environment_ambient_comparison.png",
+    "width": 1319,
+    "height": 1484,
+    "source_sha256": "a708add8510ef19a061ee68e807f55f3b3e21506bb0646e0dade3f11f4f2e1e5",
+    "rgba_sha256": "04eb0c7f5d8a3ce66168b3e979cb81ee06ab1bf3eb52419a239785a7cfc15454",
+    "png_sha256": "276005fc4ba4c3d6dac18fab7b918d90757ea6b83be642843e3098b348271cc1"
+  },
+  {
+    "name": "kde-5.22.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v5.22.0/wallpapers/Next/contents/images/3840x2160.png",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "89ae2e4cb6fc1f4c3e9428723b418901a80272a5d4eaa06a97d2e31e53c566b1",
+    "rgba_sha256": "f36b4cd3dbcbb5fd3c84316d19072185c814519365de763ddc830b9395998164",
+    "png_sha256": "f9990dc7cbc07e01ac0e63a6445a059496dd21cfe4fc3c03480ce1bff8bd6c1f"
+  },
+  {
+    "name": "kde-5.26.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v5.26.0/wallpapers/Next/contents/images/3840x2160.png",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "04a365d921ebd35848e4f8dcf152ae905959f2056abf87faaf19bf53c24122f9",
+    "rgba_sha256": "50d96d6f0b6d28359648210dcae53c481e95351f32fc49433ec301fc22fc86a9",
+    "png_sha256": "78e69cb7c683f56f96d4138b5eabb6cd2a4194d8f6a966175befa7643f47a9c2"
+  },
+  {
+    "name": "kde-5.27.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v5.27.0/wallpapers/Next/contents/images/3840x2160.png",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "bf02ca115505b76ffedd861958028f116bd644050ed77c10c511b652082a40f1",
+    "rgba_sha256": "0be4983dadd199aa2bcf297b5a5973a14011be2434892b0eeb2fa3ab49b0748e",
+    "png_sha256": "99982d6c3fbcc7df252a684fab3499876fffce75627708453970ae7bb58e4099"
+  },
+  {
+    "name": "kde-6.0.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v6.0.0/wallpapers/Next/contents/images/3840x2160.png",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "db998b3e616931956516b756d6795d32d7fb977b2d5a8c94c2092427c93e8119",
+    "rgba_sha256": "66f334c9d46558b279bf9ae3a2815a2f41758e348f760147a860c275c0ac9d62",
+    "png_sha256": "b3202a6a5ebabadd36b7daebe4efc72d890757dd8cdb229adb09173e10d470dd"
+  },
+  {
+    "name": "kde-6.2.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v6.2.0/wallpapers/Next/contents/images/3840x2160.png",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "599f9810f403702f28743384d79d5d72bd86506318931daa66449d9a3f0af394",
+    "rgba_sha256": "f9e575772d1e2f657d31afad403ec7df801afcd839122d15ec7aea6a50295732",
+    "png_sha256": "12edfe1d609670820064f09591f4c951db433dcc709f08b2ab7601aadd5066f7"
+  },
+  {
+    "name": "kde-5.18.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v5.18.0/wallpapers/Next/contents/images/3840x2160.jpg",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "e58a8ec065cc43d50515713721f32d4d62801eb909f7e1ae1182b98672e9a75e",
+    "rgba_sha256": "5dea2c4704e8f8a0b80e02084836689d2555a966b2f8dc724ada00fb9edee1f6",
+    "png_sha256": "8a8bca093136ca5f42aa945abb68dc7cf3ed71a51a3afec2896045dca2a1f3da"
+  },
+  {
+    "name": "kde-5.19.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v5.19.0/wallpapers/Next/contents/images/3840x2160.jpg",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "c03a6e6c7b64b42624c29ded724bada7c9efd326d0d7fb29e7f94d3b634f2286",
+    "rgba_sha256": "420b7d13b0b4feacee9496701271c310fcb528993a3ef5d9bbe8b363b646d381",
+    "png_sha256": "5ea03b9b2b275afdc9794ffeeaf239e9e517268e67fb53bbac2b564bc286ec84"
+  },
+  {
+    "name": "kde-5.20.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v5.20.0/wallpapers/Next/contents/images/3840x2160.jpg",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "29335498b957ac2748d7b7b60df3bee89df6deb4e302b0e9d62afd5298227973",
+    "rgba_sha256": "c4e52abef1cd06c01b746507044b704a47220472e46d0f0ad244dcaf35d5b558",
+    "png_sha256": "7ae54fd86433197462ded3788908b1d7c0b61497725ab2bbe138dfcdcbe57eb5"
+  },
+  {
+    "name": "kde-5.21.0",
+    "url": "https://raw.githubusercontent.com/KDE/breeze/v5.21.0/wallpapers/Next/contents/images/3840x2160.png",
+    "width": 3840,
+    "height": 2160,
+    "source_sha256": "99982c02c3b8510c361f9d78ab0337434c53cc986316abc9a95127c23db26b64",
+    "rgba_sha256": "7f71d09bdb40f0d4460054e4ae6ffc2933db5c150f8e4eda86c43fc5d59e1046",
+    "png_sha256": "43e8fb9816b6ca23b486ae5f1c41c61a8dc0de7cd91071130ae251b0478158e4"
+  }
+]

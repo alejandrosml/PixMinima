@@ -1,0 +1,20 @@
+{
+  "tool": "ect",
+  "version": "Version 0.9.5 compiled on Nov 20 2026",
+  "binary_sha256": "4e13606a873d4e08b3e20b3d0081bfdd8130f6ed3d0907c5f68f2c32c1efd702",
+  "flags": [
+    "-9",
+    "--strict",
+    "--mt-file=8",
+    "-progressive"
+  ],
+  "completion": "complete",
+  "files": 11,
+  "timeout_seconds": 1200,
+  "elapsed_seconds": 3.273,
+  "machine": "arm64",
+  "system": "Darwin",
+  "macos": "27.2.1",
+  "source_bytes": 2170323,
+  "accepted_bytes": 1763384
+}

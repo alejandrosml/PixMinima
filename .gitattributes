@@ -1,0 +1,7 @@
+*.csv text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+# Retain imported license wording and layout and the original vendor formatting.
+docs/THIRD-PARTY.txt -whitespace
+crates/desktop/assets/fonts/OFL.txt -whitespace
+vendor/alloc-no-stdlib/src/** -whitespace

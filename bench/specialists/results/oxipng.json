@@ -1,0 +1,23 @@
+{
+  "tool": "oxipng",
+  "version": "oxipng 10.2.1",
+  "binary_sha256": "275a2049091caf576be74b838df4675fbb179c9f2d118cec44ea1521e54fc45e",
+  "flags": [
+    "-o",
+    "max",
+    "--zopfli",
+    "--threads",
+    "8",
+    "--keep",
+    "bKGD,iCCP,iTXt,pHYs,sBIT,sRGB,tEXt,tIME"
+  ],
+  "completion": "complete",
+  "files": 8,
+  "timeout_seconds": 1200,
+  "elapsed_seconds": 32.152,
+  "machine": "arm64",
+  "system": "Darwin",
+  "macos": "27.2.1",
+  "source_bytes": 1260294,
+  "accepted_bytes": 1216615
+}

@@ -1,0 +1,15 @@
+[package]
+name = "pixminima-containers"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Safe, verified lossless transforms for image documents and containers"
+
+[lints]
+workspace = true
+
+[dependencies]
+pixminima-png = {path = "../png-engine"}
+miniz_oxide = {version = "=0.9.1", default-features = false, features = ["with-alloc"]}
+roxmltree = "0.20"
+brotli = { version = "=8.0.4", default-features = false, features = ["std"] }
