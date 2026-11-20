@@ -52,6 +52,36 @@ fn system_error(e: std::io::Error) -> String {
     e.to_string()
 }
 
+struct FileLock {
+    file: File,
+    #[cfg(unix)]
+    owner: u32,
+}
+
+impl FileLock {
+    // Each caller supplies a freshly opened file description.
+    fn acquire(file: File) -> Result<Self, std::fs::TryLockError> {
+        file.try_lock()?;
+        Ok(Self {
+            file,
+            #[cfg(unix)]
+            owner: std::process::id(),
+        })
+    }
+}
+
+impl Drop for FileLock {
+    fn drop(&mut self) {
+        // A duplicate descriptor, including one inherited across fork, can keep
+        // flock alive after close. Only the acquiring process releases it.
+        #[cfg(unix)]
+        if self.owner != std::process::id() {
+            return;
+        }
+        let _ = self.file.unlock();
+    }
+}
+
 pub(super) struct StagedImage {
     // Keep an ordinary file in a unique private directory, so native publishing
     // operations retain its attributes on every platform.
@@ -204,7 +234,7 @@ pub(super) fn stage_copy(input: &Path, after: &[u8], parent: &Path) -> Result<St
 }
 
 #[cfg(windows)]
-fn windows_lock(input: &Path) -> Result<File, String> {
+fn windows_lock(input: &Path) -> Result<FileLock, String> {
     // Keeping the handle outside the image and the backup directory permits
     // atomic renames on Windows, even when restoring a missing input.
     let parent = input
@@ -226,10 +256,7 @@ fn windows_lock(input: &Path) -> Result<File, String> {
         .truncate(false)
         .open(directory.join(hex))
         .map_err(system_error)?;
-    control
-        .try_lock()
-        .map_err(|e| format!("File is busy or cannot be locked: {e}"))?;
-    Ok(control)
+    FileLock::acquire(control).map_err(|e| format!("File is busy or cannot be locked: {e}"))
 }
 
 fn require_single_link(file: &File) -> Result<(), String> {
@@ -251,7 +278,12 @@ fn require_single_link(file: &File) -> Result<(), String> {
     Ok(())
 }
 
-fn lock_input(input: &Path) -> Result<File, String> {
+#[cfg(any(unix, windows))]
+type InputLock = FileLock;
+#[cfg(not(any(unix, windows)))]
+type InputLock = File;
+
+fn lock_input(input: &Path) -> Result<InputLock, String> {
     if fs::symlink_metadata(input)
         .map_err(system_error)?
         .permissions()
@@ -263,13 +295,15 @@ fn lock_input(input: &Path) -> Result<File, String> {
     let guard = windows_lock(input)?;
     let file = File::open(input).map_err(system_error)?;
     #[cfg(unix)]
-    file.try_lock()
-        .map_err(|e| format!("File is busy or cannot be locked: {e}"))?;
+    let guard =
+        FileLock::acquire(file).map_err(|e| format!("File is busy or cannot be locked: {e}"))?;
+    #[cfg(unix)]
+    require_single_link(&guard.file)?;
+    #[cfg(not(unix))]
     require_single_link(&file)?;
-    #[cfg(windows)]
-    return Ok(guard);
-    #[cfg(not(windows))]
-    Ok(file)
+    #[cfg(not(any(unix, windows)))]
+    let guard = file;
+    Ok(guard)
 }
 
 /// Explicit permanent replacement. Publish the verified temporary file using
@@ -352,7 +386,7 @@ pub fn optimize_in_place(
         .create_new(true)
         .open(preparing.path().join(LOCK))
         .map_err(system_error)?;
-    lock.try_lock().map_err(|e| e.to_string())?;
+    let _transaction_lock = FileLock::acquire(lock).map_err(|e| e.to_string())?;
     let backup = preparing.path().join(ORIGINAL);
     copy_with_attributes(input, &backup)?;
     let copied = OpenOptions::new()
@@ -386,7 +420,7 @@ pub fn optimize_in_place(
         return Err("Input or backup changed while being processed".into());
     }
     #[cfg(windows)]
-    drop(lock);
+    drop(_transaction_lock);
     fs::rename(preparing.path(), &saved).map_err(system_error)?;
     sync_directory(backup_parent)?;
     if read_regular(input)? != before {
@@ -410,9 +444,10 @@ pub fn restore_original(input: &Path) -> Result<(), String> {
         .write(true)
         .open(saved.join(LOCK))
         .map_err(system_error)?;
-    mutex
-        .try_lock()
-        .map_err(|_| "File is currently being processed".to_string())?;
+    let mutex = FileLock::acquire(mutex).map_err(|e| match e {
+        std::fs::TryLockError::WouldBlock => "File is currently being processed".to_string(),
+        std::fs::TryLockError::Error(io) => system_error(io),
+    })?;
     let journal = read_regular(&saved.join(JOURNAL))?;
     if journal.len() != 64 {
         return Err("Incomplete backup journal; original retained in the backup folder".into());
@@ -485,4 +520,33 @@ pub fn restore_original(input: &Path) -> Result<(), String> {
         fs::remove_dir(&retirement_root).map_err(system_error)?;
     }
     Ok(())
+}
+
+#[cfg(all(test, unix))]
+mod tests {
+    use super::FileLock;
+    use std::fs::{File, TryLockError};
+
+    #[test]
+    fn transaction_unlocks_while_a_duplicate_descriptor_remains_open() {
+        let path = tempfile::NamedTempFile::new().unwrap();
+        let open = || File::open(path.path()).unwrap();
+        let first = FileLock::acquire(open()).unwrap();
+        let duplicate = first.file.try_clone().unwrap();
+        let cannot_take_lock = || {
+            assert!(matches!(
+                FileLock::acquire(open()),
+                Err(TryLockError::WouldBlock)
+            ));
+        };
+
+        cannot_take_lock();
+        cannot_take_lock(); // A failed contender must leave the owner locked.
+        drop(first);
+        let second = FileLock::acquire(open()).unwrap();
+        drop(duplicate);
+        cannot_take_lock(); // The stale descriptor cannot unlock the new owner.
+        drop(second);
+        assert!(FileLock::acquire(open()).is_ok());
+    }
 }
