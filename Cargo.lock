@@ -2523,7 +2523,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pixminima-core",
  "serde_json",
@@ -2532,7 +2532,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-compute"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pollster",
  "wgpu",
@@ -2540,7 +2540,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-containers"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "brotli",
  "miniz_oxide 0.9.1",
@@ -2550,7 +2550,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-core"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "pixminima-compute",
  "pixminima-containers",
@@ -2569,7 +2569,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-desktop"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "eframe",
  "egui_kittest",
@@ -2586,7 +2586,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-extra"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "miniz_oxide 0.9.1",
  "pixminima-png",
@@ -2596,7 +2596,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-formats"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "image-webp",
  "jpeg-decoder",
@@ -2610,7 +2610,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-jxl"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "brotli-decompressor",
  "jixel",
@@ -2619,7 +2619,7 @@ dependencies = [
 
 [[package]]
 name = "pixminima-png"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "adler2",
  "exoquant",

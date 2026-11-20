@@ -31,7 +31,9 @@ External checks compared creation and modification dates, owner, group, permissi
 
 ## Release and updates
 
-The distributed Apple silicon disk image is 10,770,745 bytes. Its SHA-256 is `5882c80912c06e37c2aac05d5121178a3a02f6159afa2eade59ddb4f957ae19f`. Apple notarized the application and the disk image independently. Gatekeeper accepted both the downloaded disk format and the application mounted from it with the status **Notarized Developer ID**. The executable declares a minimum of macOS 27.0. The updater was exercised on disposable copies with real publisher signatures, an older installed bundle and a notarized newer disk image. [Update validation](updates.md)
+The 0.1.1 Apple silicon disk image is 10,771,808 bytes. Its SHA-256 is `96f01fc88769ba213747735d607615c9f78066879f427037ba101cd7a589c598`. Apple notarized both its application and disk image. The patch adds an embedded font fallback for localized interface elements. On the eleven-image comparison set, the signed 0.1.1 helper produced the same eleven output SHA-256 values as 0.1.0, totaling 1,693,165 bytes. An independent decoder checked the pixels and metadata again. Published comparison times were measured on 0.1.0. On a disposable 0.1.0 installation the updater validated the new disk image, exchanged the app, launched 0.1.1 and retained all seven settings checked. A repeat installation of the same version was refused. [Public 0.1.1 download](https://github.com/alejandrosml/PixMinima/releases/tag/v0.1.1)
+
+The original 0.1.0 Apple silicon disk image is 10,770,745 bytes. Its SHA-256 is `5882c80912c06e37c2aac05d5121178a3a02f6159afa2eade59ddb4f957ae19f`. Apple notarized the application and the disk image independently. Gatekeeper accepted both the downloaded disk format and the application mounted from it with the status **Notarized Developer ID**. The executable declares a minimum of macOS 27.0. The updater was exercised on disposable copies with real publisher signatures, an older installed bundle and a notarized newer disk image. [Update validation](updates.md)
 
 ## Reproduce
 
